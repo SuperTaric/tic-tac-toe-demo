@@ -111,7 +111,6 @@ class Game extends React.Component {
       for (let i of winner.winPoint) {
         document.getElementsByClassName('square')[i].style = "background: lightblue; color: #fff;";
       }
-      !this.state.isEnd && this.gameOver()
     } else {
       if (this.state.history.length > 9) {
         status = 'No player win! It ends in a draw!';
