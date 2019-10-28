@@ -52,7 +52,8 @@ class Game extends React.Component {
       }],
       xIsNext: true,
       stepNumber: 0,
-      sortMethod: true // true：升序， false：降序
+      sortMethod: true, // true：升序， false：降序
+      isEnd: false
     }
   }
 
@@ -106,9 +107,17 @@ class Game extends React.Component {
     })
     let status
     if (winner) {
-      status = 'Winner: ' + winner
+      status = 'Winner: ' + winner.winValue
+      for (let i of winner.winPoint) {
+        document.getElementsByClassName('square')[i].style = "background: lightblue; color: #fff;";
+      }
+      !this.state.isEnd && this.gameOver()
     } else {
-      status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O')
+      if (this.state.history.length > 9) {
+        status = 'No player win! It ends in a draw!';
+      } else {
+        status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O')
+      }
     }
     return (
       <div className="game">
@@ -142,7 +151,10 @@ function calculateWinner (squares) {
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i]
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a]
+      return {
+        winValue: squares[a],
+        winPoint: lines[i]
+      }
     }
   }
   return null
