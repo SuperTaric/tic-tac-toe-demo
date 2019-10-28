@@ -43,6 +43,7 @@ class Board extends React.Component {
 }
 
 class Game extends React.Component {
+
   constructor (props) {
     super(props)
     this.state = {
@@ -50,7 +51,8 @@ class Game extends React.Component {
         squares: Array(9).fill(null)
       }],
       xIsNext: true,
-      stepNumber: 0
+      stepNumber: 0,
+      sortMethod: true // true：升序， false：降序
     }
   }
 
@@ -77,6 +79,12 @@ class Game extends React.Component {
     this.setState({
       stepNumber: step,
       xIsNext: (step % 2) === 0
+    })
+  }
+
+  changeSortMethod () {
+    this.setState({
+      sortMethod: !this.state.sortMethod
     })
   }
 
@@ -112,7 +120,8 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
-          <ol>{moves}</ol>
+          <button onClick={() => this.changeSortMethod()}>{this.state.sortMethod ? '降序' : '升序'}</button>
+          <ol>{this.state.sortMethod ? moves : moves.reverse()}</ol>
         </div>
       </div>
     )
